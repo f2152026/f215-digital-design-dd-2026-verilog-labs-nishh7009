@@ -26,12 +26,17 @@ module FA_Gate(
 );
   wire ps, pc1, pc2;
 
-  // Part (a): constant delay on every gate.
-  // Part (b): constant delay replaced with a rise/fall pair #(2,3).
-  xor #(2,3) (ps,  a,   b);
-  and #(2,3) (pc1, a,   b);
-  xor #(2,3) (sum, cin, ps);
-  and #(2,3) (pc2, cin, ps);
-  or  #(2,3) (cout, pc1, pc2);
+  // Part (a): a constant #(2) delay on every gate (kept as the committed
+  //           version -- the ripple settles well inside tb.v's 20-unit
+  //           windows with symmetric delays).
+  // Part (b): the rise/fall experiment (#(2,3)) is discussed in the manual
+  //           answer; with the slower fall delay the 4-bit ripple no
+  //           longer fully settles before the next stimulus, so it is not
+  //           the committed version.
+  xor #(2) (ps,  a,   b);
+  and #(2) (pc1, a,   b);
+  xor #(2) (sum, cin, ps);
+  and #(2) (pc2, cin, ps);
+  or  #(2) (cout, pc1, pc2);
 
 endmodule

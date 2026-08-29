@@ -16,13 +16,17 @@ module FA_Gate(
 );
   wire ps, pc1, pc2;
 
-  // Part (b): gate order changed from the original (or moved to top,
-  //           first xor moved to bottom).
-  // Part (c): a constant #(2) delay added to every gate.
-  or  #(2) (cout, pc1, pc2);
-  and #(2) (pc2, cin, ps);
-  xor #(2) (sum, cin, ps);
-  and #(2) (pc1, a,   b);
-  xor #(2) (ps,  a,   b);
+  // Part (b): gate order changed from the original -- the final `or` was
+  //           moved to the top and the first `xor` to the bottom. The
+  //           simulated waveform is unchanged (gate instantiations are
+  //           concurrent, not sequential).
+  // Part (c) is an observe-only experiment (see manual answer); the
+  //           committed file stays delay-free, as this file's header
+  //           requires ("No delays yet -- that starts in Task 2").
+  or  (cout, pc1, pc2);
+  and (pc2, cin, ps);
+  xor (sum, cin, ps);
+  and (pc1, a,   b);
+  xor (ps,  a,   b);
 
 endmodule
