@@ -9,7 +9,9 @@ module mux_beh (
   input       I0,
   input       I1,
   input       S,
-  output wire Y
+  // An `always` block assigns procedurally, so Y must retain variable (reg)
+  // semantics.  A wire may only be driven by a continuous/module driver.
+  output reg Y
 );
 
   always @(*) begin

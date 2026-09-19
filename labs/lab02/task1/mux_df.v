@@ -9,7 +9,9 @@ module mux_df (
   input      I0,
   input      I1,
   input      S,
-  output reg Y
+  // A continuous `assign` drives a net.  Declaring Y as reg here would make
+  // the simulator see a procedural variable being driven by a net driver.
+  output wire Y
 );
 
   assign Y = S ? I1 : I0;
